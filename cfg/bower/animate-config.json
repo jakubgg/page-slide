@@ -1,0 +1,8 @@
+{
+  "sliding_exits" : {
+    "slideOutDown" : true,
+    "slideOutLeft" : true,
+    "slideOutRight" : true,
+    "slideOutUp" : true
+  }
+}
