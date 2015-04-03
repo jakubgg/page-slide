@@ -1,12 +1,5 @@
 ;(function (window, undefined) {
-    //head.test({
-    //    test: !!(window.history && history.pushState),
-    //    success: [],
-    //    failure: '/js/history.js',
-    //    complete: function() {}
-    //
-    //});
-    head.load({build: '/js/build.js'});
+    head.load({build: '/build.js'});
 
     head.ready('build', function () {
         var $body = $('body');
