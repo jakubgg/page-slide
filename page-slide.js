@@ -1,5 +1,5 @@
 ;(function (window, undefined) {
-    head.load({build: '/build.js'});
+    head.load({build: '/page-slide/build.js'});
 
     head.ready('build', function () {
         var $body = $('body');
