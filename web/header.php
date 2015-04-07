@@ -6,8 +6,10 @@
 
     <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1.0">
 
-    <link rel="stylesheet" href="/css/nst.css">
-    <script src="/js/head.js" data-headjs-load="/js/nst.js" async></script>
+    <link rel="stylesheet" href="/css/nst.css?v=<?php echo filemtime(__DIR__ . '/css/nst.css'); ?>">
+
+    <!--[if lte IE 9]><script src="/js/history.js"></script><![endif]-->
+    <script src="/js/head.js?v=<?php echo filemtime(__DIR__ . '/js/head.js'); ?>" data-headjs-load="/js/nst.js?v=<?php echo filemtime(__DIR__ . '/js/nst.js'); ?>" async></script>
 </head>
 
 <body id="main">
