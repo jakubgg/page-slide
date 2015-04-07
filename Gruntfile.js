@@ -2,7 +2,8 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
-        pkg      : grunt.file.readJSON('package.json'),
+        pkg: grunt.file.readJSON('package.json'),
+
         modernizr: {
             dist: {
                 // [REQUIRED] Path to the build you're using for development.
@@ -13,7 +14,7 @@ module.exports = function (grunt) {
 
                 // Based on default settings on http://modernizr.com/download/
                 "extra"              : {
-                    "shiv"      : true,
+                    "shiv"      : false,
                     "printshiv" : false,
                     "load"      : false,
                     "mq"        : false,
@@ -61,7 +62,8 @@ module.exports = function (grunt) {
                 "customTests"        : []
             }
         },
-        concat   : {
+
+        concat: {
             css: {
                 src : [
                     'bower_components/normalize-css/normalize.css',
@@ -82,7 +84,8 @@ module.exports = function (grunt) {
                 dest   : 'web/js/build.js'
             }
         },
-        copy     : {
+
+        copy: {
             dev  : {
                 src : 'src/js/nst.js',
                 dest: 'web/js/nst.js'
@@ -104,7 +107,8 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        uglify   : {
+
+        uglify: {
             dist: {
                 files: [
                     {'web/js/build.js': 'web/js/build.js'},
@@ -113,12 +117,13 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        subgrunt : {
+
+        subgrunt: {
             animateCss: [
                 'bower_components/animate.css'
             ]
         },
-        cssmin   : {
+        cssmin  : {
             options: {
                 shorthandCompacting: false,
                 roundingPrecision  : -1
@@ -128,10 +133,23 @@ module.exports = function (grunt) {
                     'web/css/nst.css': ['web/css/nst.css']
                 }
             }
+        },
+
+        clean: ['web/js/nst.js', 'web/js/build.js', 'web/css/nst.css'],
+
+        watch: {
+            scripts: {
+                files  : ['src/js/*.js'],
+                tasks  : ['default'],
+                options: {
+                    spawn  : false,
+                    atBegin: true
+                }
+            }
         }
     });
 
-    grunt.registerTask('setup', ['copy:setup', 'copy:dev', 'subgrunt', 'concat:css', 'concat:js']);
-    grunt.registerTask('default', ['copy:dev', 'concat:css', 'concat:js']);
+    grunt.registerTask('setup', ['modernizr', 'copy:setup', 'copy:dev', 'subgrunt', 'concat:css', 'concat:js']);
+    grunt.registerTask('default', ['clean', 'concat:css', 'concat:js', 'copy:dev']);
     grunt.registerTask('production', ['setup', 'uglify', 'cssmin']);
 };
