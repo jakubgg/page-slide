@@ -1,31 +1,60 @@
-;(function (window, undefined) {
-    //head.test({
-    //    test: !!(window.history && history.pushState),
-    //    success: [],
-    //    failure: '/js/history.js',
-    //    complete: function() {}
-    //
-    //});
-    head.load({build: '/js/build.js'});
-
-    head.ready('build', function () {
+;
+(function (window, undefined) {
+    head.load('/js/build.js', function () {
         var $body = $('body');
 
         /**
          * Originating slide level
+         * @type {Array}
          */
         var fromLevel;
 
         /**
          * Target slide level
+         * @type {Array}
          */
         var toLevel;
 
         /**
+         * Indicates whether the user clicked the back-button
+         * @type {boolean}
+         */
+        var isPopped = false;
+
+        /**
+         * Contains the level arrays of the page that have been visited
+         * @type {Array}
+         */
+        var visitedLevels = [];
+
+        /**
+         * The element that contains the content of the page we're currently looking at
+         * @type {jQuery}
+         */
+        var $oldPageContent;
+
+        /**
+         * The element that contains the content of the page we're navigating to
+         * @type {jQuery}
+         */
+        var $newPageContent;
+
+        /**
+         * @type {jQuery}
+         */
+        var $oldPageNavigation;
+
+        /**
+         * @type {jQuery}
+         */
+        var $newPageNavigation;
+
+        /**
          * Parses a string and returns an array
          *
-         * @param levels
-         * @returns Array
+         * @type {Function}
+         * @param {String} levels Formatted as x-y-z
+         * @return {Array}
          */
         var getLevelArray = function (levels) {
             var pageNrTemplate = [0, 0, 0];
@@ -52,7 +81,9 @@
          * +---------+---------+---------+---------+
          * | level#3 |  ← ↓ →  |    ↓    |         |
          * +---------+---------+---------+---------+
-         * @returns String
+         *
+         * @type {Function}
+         * @return {String}
          */
         var getSlideDirection = function () {
             /**
@@ -127,9 +158,11 @@
         /**
          * Contains the name of the event that is fired whenever an animation
          * ends.
-         * @var string
+         *
+         * @type {Function}
+         * @return {String}
          */
-        var whichAnimationEvent = function () {
+        var getAnimationEvent = function () {
             var a,
                 el = document.createElement('fakeelement');
 
@@ -146,20 +179,24 @@
                 }
             }
 
-            return null;
+            return '';
         };
 
         /**
          * SmoothState instance
+         *
+         * @type {Object}
          */
         var content = $('#main').smoothState({
             anchors      : '.navigation a',
             development  : false,
             prefetch     : true,
-            pageCacheSize: 0,
+            pageCacheSize: 20,
             onClick      : function (event) {
                 toLevel = getLevelArray($(event.currentTarget).attr('data-slider-number'));
                 fromLevel = getLevelArray($(event.currentTarget).parents('.navigation').find('[data-slider-status=current]').attr('data-slider-number'));
+
+                visitedLevels.push(fromLevel);
             },
             onEnd        : {
                 /**
@@ -169,50 +206,77 @@
                  * @param jQuery $content
                  */
                 render: function (url, $container, $content) {
+                    /**
+                     * Reverse the direction of the slide animation
+                     * if the history state has been popped
+                     */
+                    if (isPopped) {
+                        fromLevel = toLevel;
+                        toLevel = visitedLevels.pop();
+                        isPopped = false;
+                    }
+
                     var slideDirection = getSlideDirection();
 
-                    var oldPageElement = $container.find('.page-element');
-                    var newPageElement = $content.find('.page-element');
+                    $oldPageContent    = $container.find('.page-element');
+                    $newPageContent    = $content.find('.page-element');
+                    $oldPageNavigation = $container.find('.navigation');
+                    $newPageNavigation = $content.find('.navigation');
 
-                    var oldPageNavigation = $container.find('.navigation');
-                    var newPageNavigation = $content.find('.navigation');
+                    $oldPageNavigation.replaceWith($newPageNavigation);
 
-                    oldPageNavigation.replaceWith(newPageNavigation);
-
-                    //define the position of the new page element
+                    /**
+                     * Define the position of the new page element. The new element
+                     * is to be placed behind the old element. Behind is relative to the
+                     * direction the page element is moving towards.
+                     */
                     switch (slideDirection) {
                         case 'up':
-                            newPageElement.css('bottom', '-100%');
+                            $newPageContent.css('bottom', '-100%');
                             break;
                         case 'right':
-                            newPageElement.css('left', '-100%');
+                            $newPageContent.css('left', '-100%');
                             break;
                         case 'down':
-                            newPageElement.css('top', '-100%');
+                            $newPageContent.css('top', '-100%');
                             break;
                         case 'left':
-                            newPageElement.css('right', '-100%');
+                            $newPageContent.css('right', '-100%');
                             break;
                     }
 
-                    //place the new page element before or after the current one
                     if (slideDirection === 'down' || slideDirection === 'left') {
-                        oldPageElement.after(newPageElement);
+                        $oldPageContent.after($newPageContent);
                     } else {
-                        oldPageElement.before(newPageElement);
+                        $oldPageContent.before($newPageContent);
                     }
 
                     //set the animation
                     $body.addClass('slide-' + slideDirection);
-                    console.log(whichAnimationEvent());
+
+                    var animationEvent = getAnimationEvent();
+
                     //clean up after animation has ended
-                    $body.find('.page-element').one(whichAnimationEvent(), function (event) {
-                        oldPageElement.remove();
-                        newPageElement.attr('style', '');
-                        $body.removeClass('slide-' + slideDirection);
-                    });
+                    if (animationEvent !== '') {
+                        $body.find('.page-element').one(animationEvent, function (event) {
+                            $oldPageContent.remove();
+                            $newPageContent.attr('style', '');
+                            $body.removeClass('slide-' + slideDirection);
+                        });
+                    } else {
+                        /**
+                         * @todo create fallback for lack of animationend support
+                         */
+                    }
                 }
             }
         }).data('smoothState');
+
+        /**
+         * Detect whenever the back-button has been clicked
+         */
+        window.addEventListener('popstate', function (event) {
+            isPopped = true;
+        });
     });
 })(window);
