@@ -4,19 +4,19 @@
 <div class="navigation">
     <ul>
         <li><span data-slider-number="1" data-slider-status="current">index</span>
-        <li><a href="page2" data-slider-number="2">page2</a>
+        <li><a href="/page2/" data-slider-number="2/">page2</a>
             <ul>
-                <li><a data-slider-number="2-1" href="page2-1">page2-1</a>
-                <li><a data-slider-number="2-2" href="page2-2">page2-2</a>
+                <li><a data-slider-number="2-1" href="/page2-1/">page2-1</a>
+                <li><a data-slider-number="2-2" href="/page2-2/">page2-2</a>
                     <ul>
-                        <li><a data-slider-number="2-2-1" href="page2-2-1">page2-2-1</a>
-                        <li><a data-slider-number="2-2-2" href="page2-2-2">page2-2-2</a>
-                        <li><a data-slider-number="2-2-3" href="page2-2-3">page2-2-3</a>
+                        <li><a data-slider-number="2-2-1" href="/page2-2-1/">page2-2-1</a>
+                        <li><a data-slider-number="2-2-2" href="/page2-2-2/">page2-2-2</a>
+                        <li><a data-slider-number="2-2-3" href="/page2-2-3/">page2-2-3</a>
                     </ul>
-                <li><a data-slider-number="2-3" href="page2-3">page2-3</a>
+                <li><a data-slider-number="2-3" href="/page2-3/">page2-3</a>
             </ul>
         </li>
-        <li><a data-slider-number="3" href="page3">page3</a>
+        <li><a data-slider-number="3" href="/page3/">page3</a>
     </ul>
 </div>
 
@@ -28,7 +28,7 @@
         egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et
         sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet,
         wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac
-        dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+        dui. <a href="#/">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
 
     <h2>Header Level 2</h2>
 
