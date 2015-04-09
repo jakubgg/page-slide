@@ -6,10 +6,7 @@ module.exports = function (grunt) {
 
         modernizr: {
             dist: {
-                // [REQUIRED] Path to the build you're using for development.
                 "devFile"            : "bower_components/modernizr/modernizr.js",
-
-                // Path to save out the built file.
                 "outputFile"         : "bower_components/modernizr/modernizr-custom.min.js",
 
                 // Based on default settings on http://modernizr.com/download/
@@ -34,9 +31,6 @@ module.exports = function (grunt) {
                     "cssclassprefix": ""
                 },
 
-                // By default, source is uglified before saving
-                "uglify"             : true,
-
                 // Define any tests you want to implicitly include.
                 "tests"              : ['cssanimations'],
 
@@ -44,22 +38,9 @@ module.exports = function (grunt) {
                 // Set to false to disable.
                 "parseFiles"         : false,
 
-                // When parseFiles = true, this task will crawl all *.js, *.css, *.scss and *.sass files,
-                // except files that are in node_modules/.
-                // You can override this by defining a "files" array below.
-                // "files" : {
-                // "src": []
-                // },
-
-                // This handler will be passed an array of all the test names passed to the Modernizr API, and will run after the API call has returned
-                // "handler": function (tests) {},
-
                 // When parseFiles = true, matchCommunityTests = true will attempt to
                 // match user-contributed tests.
                 "matchCommunityTests": false,
-
-                // Have custom Modernizr tests? Add paths to their location here.
-                "customTests"        : []
             }
         },
 
@@ -97,10 +78,6 @@ module.exports = function (grunt) {
                         dest: 'bower_components/animate.css/animate-config.json'
                     },
                     {
-                        src : 'bower_components/history.js/scripts/bundled/html5/jquery.history.js',
-                        dest: 'web/js/history.js'
-                    },
-                    {
                         src : 'bower_components/headjs/dist/1.0.0/head.load.min.js',
                         dest: 'web/js/head.js'
                     }
@@ -123,6 +100,7 @@ module.exports = function (grunt) {
                 'bower_components/animate.css'
             ]
         },
+
         cssmin  : {
             options: {
                 shorthandCompacting: false,
@@ -137,13 +115,42 @@ module.exports = function (grunt) {
 
         clean: ['web/js/nst.js', 'web/js/build.js', 'web/css/nst.css'],
 
-        watch: {
+        watch       : {
             scripts: {
                 files  : ['src/js/*.js'],
                 tasks  : ['default'],
                 options: {
                     spawn  : false,
                     atBegin: true
+                }
+            }
+        },
+
+        htmlSnapshot: {
+            all: {
+                options: {
+                    snapshotPath  : './web/snapshots',
+                    sitePath      : 'http://nst.local.dev',
+                    fileNamePrefix: '',
+                    msWaitForPages: 1000,
+                    sanitize      : function (requestUri) {
+                        //returns 'index.html' if the url is '/', otherwise a prefix
+                        if (/^\/$/.test(requestUri)) {
+                            return '/index';
+                        }
+                        return requestUri;
+                    },
+                    //here goes the list of all urls that should be fetched
+                    urls          : [
+                        '/',
+                        '/page2',
+                        '/page-2-1',
+                        '/page-2-2',
+                        '/page-2-2-1',
+                        '/page-2-2-2',
+                        '/page-2-2-3',
+                        '/page3'
+                    ]
                 }
             }
         }
