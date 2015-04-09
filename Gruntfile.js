@@ -144,11 +144,11 @@ module.exports = function (grunt) {
                     urls          : [
                         '/',
                         '/page2',
-                        '/page-2-1',
-                        '/page-2-2',
-                        '/page-2-2-1',
-                        '/page-2-2-2',
-                        '/page-2-2-3',
+                        '/page2-1',
+                        '/page2-2',
+                        '/page2-2-1',
+                        '/page2-2-2',
+                        '/page2-2-3',
                         '/page3'
                     ]
                 }
