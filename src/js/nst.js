@@ -1,5 +1,4 @@
-;
-(function (window, undefined) {
+;(function (window, undefined) {
     head.load('/js/build.js', function () {
         var $body = $('body');
 
@@ -190,13 +189,22 @@
         var content = $('#main').smoothState({
             anchors      : '.navigation a',
             development  : false,
-            prefetch     : true,
+            prefetch     : false,
             pageCacheSize: 20,
             onClick      : function (event) {
                 toLevel = getLevelArray($(event.currentTarget).attr('data-slider-number'));
                 fromLevel = getLevelArray($(event.currentTarget).parents('.navigation').find('[data-slider-status=current]').attr('data-slider-number'));
 
                 visitedLevels.push(fromLevel);
+            },
+            onProgress   : {
+                /**
+                 * Override default onProgress function where the cursor pointer keeps
+                 * showing a 'wait' cursor
+                 */
+                render: function () {
+                    return;
+                }
             },
             onEnd        : {
                 /**
@@ -263,10 +271,6 @@
                             $newPageContent.attr('style', '');
                             $body.removeClass('slide-' + slideDirection);
                         });
-                    } else {
-                        /**
-                         * @todo create fallback for lack of animationend support
-                         */
                     }
                 }
             }
