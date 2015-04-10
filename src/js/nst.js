@@ -1,44 +1,41 @@
+/**
+ *
+ */
 ;(function (window, undefined) {
     head.load('/js/build.js', function () {
         var $body = $('body');
 
         /**
-         * Originating slide level
+         * Source level
          * @type {Array}
          */
         var fromLevel;
 
         /**
-         * Target slide level
+         * Target level
          * @type {Array}
          */
         var toLevel;
 
         /**
-         * Contains the level arrays of the page that have been visited
-         * @type {Array}
-         */
-        var visitedLevels = [];
-
-        /**
          * The element that contains the content of the page we're currently looking at
-         * @type {jQuery}
+         * @type {Object}
          */
         var $oldPageContent;
 
         /**
          * The element that contains the content of the page we're navigating to
-         * @type {jQuery}
+         * @type {Object}
          */
         var $newPageContent;
 
         /**
-         * @type {jQuery}
+         * @type {Object}
          */
         var $oldPageNavigation;
 
         /**
-         * @type {jQuery}
+         * @type {Object}
          */
         var $newPageNavigation;
 
@@ -49,7 +46,7 @@
          * @param {String} levels Formatted as x-y-z
          * @return {Array}
          */
-        var getLevelArray = function (levels) {
+        var getLevelArray = function getLevelArray(levels) {
             var pageNrTemplate = [0, 0, 0];
             var pageNumbers = levels.split('-');
 
@@ -78,7 +75,7 @@
          * @type {Function}
          * @return {String}
          */
-        var getSlideDirection = function () {
+        var getSlideDirection = function getSlideDirection() {
             /**
              * Page we're coming from
              * @type boolean
@@ -111,7 +108,7 @@
              *
              * @var Array
              */
-            var levelCompare = (function (a, b) {
+            var levelCompare = (function levelCompare(a, b) {
                 var compare = [];
 
                 for (var i = 0, j = 3; i < j; i++) {
@@ -160,7 +157,7 @@
          * @type {Function}
          * @return {String}
          */
-        var getAnimationEvent = function () {
+        var getAnimationEvent = function getAnimationEvent() {
             var a,
                 el = document.createElement('fakeelement');
 
@@ -190,32 +187,25 @@
             development  : false,
             prefetch     : false,
             pageCacheSize: 20,
-            onClick      : function (event) {
+            onClick      : function onClick(event) {
                 toLevel = getLevelArray($(event.currentTarget).attr('data-slider-number'));
                 fromLevel = getLevelArray($(event.currentTarget).parents('.navigation').find('[data-slider-status=current]').attr('data-slider-number'));
-
-                visitedLevels.push(fromLevel);
             },
             onProgress   : {
                 /**
                  * Override default onProgress function where the cursor pointer keeps
-                 * showing a 'wait' cursor
+                 * showing a 'wait' cursor whenever the back-button is clicked.
                  */
-                render: function () {
-                    console.log('onProgress');
-                    return;
-                }
+                render: function () {}
             },
             onEnd        : {
                 /**
                  * Executes when content is ready to be injected
-                 * @param string url
-                 * @param jQuery $container
-                 * @param jQuery $content
+                 * @param {String} url
+                 * @param {Object} $container
+                 * @param {Object} $content
                  */
                 render: function (url, $container, $content) {
-                    console.log('onEnd');
-
                     var slideDirection = getSlideDirection();
 
                     $oldPageContent    = $container.find('.page-element');
