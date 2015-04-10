@@ -48,6 +48,9 @@ The smoothState.js is an adapted version from the original. I based my changes o
 [www.howarkitekter.se](http://www.howarkitekter.se/c/themes/how/assets/javascripts/plugins.js). In that project, an 'onClick'
 callback handler is defined to be able to access the click event.
 
+### Bower
+Animate.css is used for page transition animations. The file `cfg/bower/animate-config.json` holds the animations that will be available. Adapt this file according to whatever animations are needed. After `bower install`, `bower_components/animate.css/animate-config.json` holds the full list of animations available.
+
 ### Page matrix
 The arrows indicate the possible transition that can occur at a particular level. If there is no transition possible/defined, 
 this is indicated with an 'X'.
