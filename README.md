@@ -1,7 +1,7 @@
 # Page slide demo
 A small application that uses [weblinc/jquery.smoothState.js](https://github.com/weblinc/jquery.smoothState.js) 
 to load page contents and add a smooth transition between pages. In this case, the pages are placed in a matrix 
-that has three levels (see [## notes]). Although, in this demo, you can navigate from any page to any other page, 
+that has three levels (see [Notes](#notes)). Although, in this demo, you can navigate from any page to any other page, 
 not all page navigations have a transition. Only the options listed in the table in the notes have a page
 transition according to the following logic:
 
