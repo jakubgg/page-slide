@@ -5,17 +5,6 @@
     <ul>
         <li><span data-slider-number="1" data-slider-status="current">index</span>
         <li><a href="/page2/" data-slider-number="2/">page2</a>
-            <ul>
-                <li><a data-slider-number="2-1" href="/page2-1/">page2-1</a>
-                <li><a data-slider-number="2-2" href="/page2-2/">page2-2</a>
-                    <ul>
-                        <li><a data-slider-number="2-2-1" href="/page2-2-1/">page2-2-1</a>
-                        <li><a data-slider-number="2-2-2" href="/page2-2-2/">page2-2-2</a>
-                        <li><a data-slider-number="2-2-3" href="/page2-2-3/">page2-2-3</a>
-                    </ul>
-                <li><a data-slider-number="2-3" href="/page2-3/">page2-3</a>
-            </ul>
-        </li>
         <li><a data-slider-number="3" href="/page3/">page3</a>
     </ul>
 </div>
