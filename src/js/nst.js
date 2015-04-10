@@ -15,12 +15,6 @@
         var toLevel;
 
         /**
-         * Indicates whether the user clicked the back-button
-         * @type {boolean}
-         */
-        var isPopped = false;
-
-        /**
          * Contains the level arrays of the page that have been visited
          * @type {Array}
          */
@@ -109,7 +103,12 @@
             var slideDirection = '';
 
             /**
-             * Three way comparison for the page levels
+             * Three way comparison for the page levels. Holds comparisons for all levels in
+             * the current and target page. Possible comparison values are:
+             *  -1: Target page is to the LEFT of current page
+             *  +1: Target page is to the RIGHT of current page
+             *   0: Target page is the parent of the current page
+             *
              * @var Array
              */
             var levelCompare = (function (a, b) {
@@ -129,10 +128,10 @@
             })(fromLevel, toLevel);
 
             /**
-             * Detect the slide direction
+             * Define the slide direction
              */
             if (toFirst) {
-                if (levelCompare[0] === 0) { //same branch
+                if (levelCompare[0] === 0) { //parent
                     slideDirection = 'down';
                 } else if (levelCompare[0] < 0) {
                     slideDirection = 'left';
@@ -203,6 +202,7 @@
                  * showing a 'wait' cursor
                  */
                 render: function () {
+                    console.log('onProgress');
                     return;
                 }
             },
@@ -214,15 +214,7 @@
                  * @param jQuery $content
                  */
                 render: function (url, $container, $content) {
-                    /**
-                     * Reverse the direction of the slide animation
-                     * if the history state has been popped
-                     */
-                    if (isPopped) {
-                        fromLevel = toLevel;
-                        toLevel = visitedLevels.pop();
-                        isPopped = false;
-                    }
+                    console.log('onEnd');
 
                     var slideDirection = getSlideDirection();
 
@@ -277,10 +269,12 @@
         }).data('smoothState');
 
         /**
-         * Detect whenever the back-button has been clicked
+         * Detect whenever the back-button has been clicked.
+         * Retrieve the page number that was set in the pushstate event and
+         * assign its value to the 'toLevel' variable
          */
         window.addEventListener('popstate', function (event) {
-            isPopped = true;
+            toLevel = getLevelArray(event.state.page);
         });
     });
 })(window);

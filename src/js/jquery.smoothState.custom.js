@@ -356,7 +356,8 @@
                                 }
 
                                 if(!isPopped) {
-                                    history.pushState({ id: $container.prop('id') }, cache[url].title, url);
+                                    var pageNumber = $(cache[url].html).find('.main-wrapper').attr('data-page');
+                                    history.pushState({ id: $container.prop('id'), page: pageNumber }, cache[url].title, url);
                                 }
                             },
 
