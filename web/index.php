@@ -3,9 +3,9 @@
 
 <div class="navigation">
     <ul>
-        <li><span data-slider-number="1" data-slider-status="current">index</span>
-        <li><a href="/page2/" data-slider-number="2/">page2</a>
-        <li><a data-slider-number="3" href="/page3/">page3</a>
+        <li><span data-page-number="1" data-page-status="current">index</span>
+        <li><a href="/page2/" data-page-number="2/">page2</a>
+        <li><a data-page-number="3" href="/page3/">page3</a>
     </ul>
 </div>
 

@@ -3,13 +3,13 @@
 
 <div class="navigation">
     <ul>
-        <li><a href="/" data-slider-number="1/">index</a>
-        <li><a data-slider-number="2" href="/page2/">page2</a>
+        <li><a href="/" data-page-number="1/">index</a>
+        <li><a data-page-number="2" href="/page2/">page2</a>
             <ul>
-                <li><span data-slider-number="2-1" data-slider-status="current">page2-1</span>
+                <li><span data-page-number="2-1" data-page-status="current">page2-1</span>
             </ul>
         </li>
-        <li><a data-slider-number="3" href="/page3/">page3</a>
+        <li><a data-page-number="3" href="/page3/">page3</a>
     </ul>
 </div>
 
