@@ -6,9 +6,9 @@
 
     <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1.0">
     <?php if (( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) === false) { ?>
-        <link rel="stylesheet" href="/css/nst.css?v=<?php echo filemtime(__DIR__ . '/css/nst.css'); ?>">
+        <link rel="stylesheet" href="/css/PageSlide.css?v=<?php echo filemtime(__DIR__ . '/css/PageSlide.css'); ?>">
 
-        <script src="/js/head.js" data-headjs-load="/js/nst.js?v=?php echo filemtime(__DIR__ . '/js/nst.js'); ?>" async></script>
+        <script src="/js/head.js" data-headjs-load="/js/PageSlide.js?v=<?php echo filemtime(__DIR__ . '/js/PageSlide.js'); ?>" async></script>
 
     <?php } ?>
 </head>
