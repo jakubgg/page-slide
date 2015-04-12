@@ -183,29 +183,31 @@ var PageSlide = (function pageSlide(window, undefined) {
          * @type {Object}
          */
         var content = $('#main').smoothState({
-            anchors      : '.navigation a',
-            development  : false,
-            prefetch     : false,
-            pageCacheSize: 20,
-            onClick      : function onClick(event) {
-                toLevel = getLevelArray($(event.currentTarget).attr('data-slider-number'));
-                fromLevel = getLevelArray($(event.currentTarget).parents('.navigation').find('[data-slider-status=current]').attr('data-slider-number'));
+            anchors           : '.navigation a',
+            development       : false,
+            prefetch          : false,
+            pageCacheSize     : 20,
+            pageNumberDataAttr: 'data-page',
+            onClick           : function onClick(event) {
+                toLevel = getLevelArray($(event.currentTarget).attr('data-page-number'));
+                fromLevel = getLevelArray($(event.currentTarget).parents().find('[data-page-status=current]').attr('data-page-number'));
             },
-            onStart: {
+            onStart           : {
                 render: function render() {
                     if ($oldPageContent !== undefined) {
                         $oldPageContent.remove();
                     }
                 }
             },
-            onProgress   : {
+            onProgress        : {
                 /**
                  * Override default onProgress function where the cursor pointer keeps
                  * showing a 'wait' cursor whenever the back-button is clicked.
                  */
-                render: function render() {}
+                render: function render() {
+                }
             },
-            onEnd        : {
+            onEnd             : {
                 /**
                  * Executes when content is ready to be injected
                  * @param {String} url
@@ -215,8 +217,8 @@ var PageSlide = (function pageSlide(window, undefined) {
                 render: function render(url, $container, $content) {
                     var slideDirection = getSlideDirection();
 
-                    $oldPageContent    = $container.find('.page-element');
-                    $newPageContent    = $content.find('.page-element');
+                    $oldPageContent = $container.find('.page-element');
+                    $newPageContent = $content.find('.page-element');
                     $oldPageNavigation = $container.find('.navigation');
                     $newPageNavigation = $content.find('.navigation');
 
