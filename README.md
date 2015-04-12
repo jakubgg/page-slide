@@ -42,6 +42,23 @@ transition according to the following logic:
 Run `bower install` as well as `npm install` to get all packages and dependencies and then run `grunt setup` to 
 generate all necessary files. All assets are copied from the `bower_components` and `src` folders to the `web/` folder.
 
+## Running
+The PageSlide.js logic depends on certain data-attributes being present.
+* __data-page__
+  
+  Assigned to one of the containing elements of the page contents. Can be one of:
+  - n (top level pages, e.g. data-page="1")
+  - n-m (second level pages, e.g. data-page="1-2" (second page of first tier))
+  - n-m-o (third level pages, e.g. data-page="1-2-1" (first page of second tier of first tier)
+  
+* __data-page-number__
+
+  Parameter that is assigned to each anchor in the navigation. The values of this parameter follow the same construct as the __data-page__ parameter.
+  
+* __data-page-status__
+
+  Assigned to the current anchor element in the navigation. Doesn't necessarily have to be an anchor, as long as it is an element with this attribute.
+  
 ## Notes
 ### SmoothState
 The smoothState.js is an adapted version from the original. I based my changes on how it's done in 
