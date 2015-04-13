@@ -1,8 +1,8 @@
 # Page slide demo
 A small application that uses [weblinc/jquery.smoothState.js](https://github.com/weblinc/jquery.smoothState.js) 
 to load page contents and add a smooth transition between pages. In this case, the pages are placed in a matrix 
-that has three levels (see [Notes](#notes)). Although, in this demo, you can navigate from any page to any other page, 
-not all page navigations have a transition. Only the options listed in the table in the notes have a page
+that has three levels (see [Matrix](#page-matrix)). Although, in this demo, you can navigate from any page to any other page, 
+not all page navigation possibilities have a transition. Only the options listed in the table (see [Matrix](#page-matrix)) have a page
 transition according to the following logic:
 
 - Navigating from level 1:
@@ -38,27 +38,48 @@ transition according to the following logic:
 * history.js
 * smoothState.js (customized to suit the requirements of this project)
 
-## Installation
+## Setup
 Run `bower install` as well as `npm install` to get all packages and dependencies and then run `grunt setup` to 
 generate all necessary files. All assets are copied from the `bower_components` and `src` folders to the `web/` folder.
 
-## Running
+### Data attributes
 The PageSlide.js logic depends on certain data-attributes being present.
-* __data-page__
-  
-  Assigned to one of the containing elements of the page contents. Can be one of:
-  - n (top level pages, e.g. data-page="1")
-  - n-m (second level pages, e.g. data-page="1-2" (second page of first tier))
-  - n-m-o (third level pages, e.g. data-page="1-2-1" (first page of second tier of first tier)
   
 * __data-page-number__
 
-  Parameter that is assigned to each anchor in the navigation. The values of this parameter follow the same construct as the __data-page__ parameter.
+  Parameter that is assigned to each anchor in the navigation. Can be one of:
+  - n (top level pages, e.g. `data-page="1"`)
+  - n-m (second level pages, e.g. `data-page="1-2"` (second page of first tier))
+  - n-m-o (third level pages, e.g. `data-page="1-2-1"` (first page of second tier of first tier)
+    
+  If you only want your pages to slide from left to right, use the first syntax (e.g. `data-page="1"`, `data-page="2"`, ...)
+  If you want your pages to slide up and down, use the second syntax and set 'n' to be the same across all pages, for example:
+  `data-page="1-1"`, `data-page="1-2"`, `data-page="1-3"` and so on.
   
 * __data-page-status__
 
-  Assigned to the current anchor element in the navigation. Doesn't necessarily have to be an anchor, as long as it is an element with this attribute.
+  Assigned to the current anchor element in the navigation. Doesn't necessarily have to be an anchor, as long as it is an 
+  element with this attribute. The value of this attribute is always 'current'.
   
+### Page structure
+By default, the demo uses the following HTML structure:
+```html
+<div class="navigation">
+    <ul>
+        <il><a href="/" data-page-number="1">1</a>
+        <il><a href="/page-2" data-page-number="2">2</a>
+        <li><span data-page-number="3" data-page-status="current">Current</span>
+        ...
+    </ul>
+</div>
+
+<div class="page-element">
+    here be content
+</div>
+```
+
+The class names that are used for the navigation part as well as the content part, can be configured in `src/PageSlide.js`.
+
 ## Notes
 ### SmoothState
 The smoothState.js is an adapted version from the original. I based my changes on how it's done in 
@@ -66,7 +87,9 @@ The smoothState.js is an adapted version from the original. I based my changes o
 callback handler is defined to be able to access the click event.
 
 ### Bower
-Animate.css is used for page transition animations. The file `cfg/bower/animate-config.json` holds the animations that will be available. Adapt this file according to whatever animations are needed. After `bower install`, `bower_components/animate.css/animate-config.json` holds the full list of animations available.
+Animate.css is used for page transition animations. The file `cfg/bower/animate-config.json` holds the animations that will be 
+available. Adapt this file according to whatever animations are needed. After `bower install`, 
+`bower_components/animate.css/animate-config.json` holds the full list of animations available.
 
 ### Page matrix
 The arrows indicate the possible transition that can occur at a particular level. If there is no transition possible/defined, 

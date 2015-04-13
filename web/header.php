@@ -14,4 +14,4 @@
 </head>
 
 <body id="main">
-<div class="main-wrapper page-<?= $page; ?>" data-page="<?= $page; ?>">
+<div class="main-wrapper page-<?= $page; ?>">

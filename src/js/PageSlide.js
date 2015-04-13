@@ -18,6 +18,18 @@ var PageSlide = (function pageSlide(window, undefined) {
         var toLevel;
 
         /**
+         * Query selector
+         * @type {string}
+         */
+        var navigationSelector = '.navigation';
+
+        /**
+         * Query selector for the element that holds the page content that has to be animated
+         * @type {String}
+         */
+        var contentSelector = '.page-element';
+
+        /**
          * The element that contains the content of the page we're currently looking at
          * @type {Object}
          */
@@ -183,23 +195,24 @@ var PageSlide = (function pageSlide(window, undefined) {
          * @type {Object}
          */
         var content = $('#main').smoothState({
-            anchors           : '.navigation a',
-            development       : false,
-            prefetch          : false,
-            pageCacheSize     : 20,
-            pageNumberDataAttr: 'data-page',
-            onClick           : function onClick(event) {
-                toLevel = getLevelArray($(event.currentTarget).attr('data-page-number'));
-                fromLevel = getLevelArray($(event.currentTarget).parents().find('[data-page-status=current]').attr('data-page-number'));
+            anchors                : navigationSelector + ' a',
+            development            : false,
+            prefetch               : false,
+            pageCacheSize          : 20,
+            pageNumberDataAttr     : 'data-page-number',
+            pageNumberQuerySelector: navigationSelector + ' [data-page-status="current"]',
+            onClick   : function onClick(event) {
+                toLevel = getLevelArray($(event.currentTarget).attr(this.pageNumberDataAttr));
+                fromLevel = getLevelArray($(event.currentTarget).parents().find(this.pageNumberQuerySelector).attr(this.pageNumberDataAttr));
             },
-            onStart           : {
+            onStart   : {
                 render: function render() {
                     if ($oldPageContent !== undefined) {
                         $oldPageContent.remove();
                     }
                 }
             },
-            onProgress        : {
+            onProgress: {
                 /**
                  * Override default onProgress function where the cursor pointer keeps
                  * showing a 'wait' cursor whenever the back-button is clicked.
@@ -207,7 +220,7 @@ var PageSlide = (function pageSlide(window, undefined) {
                 render: function render() {
                 }
             },
-            onEnd             : {
+            onEnd     : {
                 /**
                  * Executes when content is ready to be injected
                  * @param {String} url
@@ -217,16 +230,16 @@ var PageSlide = (function pageSlide(window, undefined) {
                 render: function render(url, $container, $content) {
                     var slideDirection = getSlideDirection();
 
-                    $oldPageContent = $container.find('.page-element');
-                    $newPageContent = $content.find('.page-element');
-                    $oldPageNavigation = $container.find('.navigation');
-                    $newPageNavigation = $content.find('.navigation');
+                    $oldPageContent = $container.find(contentSelector);
+                    $newPageContent = $content.find(contentSelector);
+                    $oldPageNavigation = $container.find(navigationSelector);
+                    $newPageNavigation = $content.find(navigationSelector);
 
                     $oldPageNavigation.replaceWith($newPageNavigation);
 
                     /**
                      * Define the position of the new page element. The new element
-                     * is to be placed behind the old element. Behind is relative to the
+                     * is to be placed behind the old element. 'behind' Is relative to the
                      * direction the page element is moving towards.
                      */
                     switch (slideDirection) {
@@ -273,6 +286,12 @@ var PageSlide = (function pageSlide(window, undefined) {
          * assign its value to the 'toLevel' variable
          */
         window.addEventListener('popstate', function (event) {
+            //there is no page to get back to
+            if (event.state.page === undefined) {
+                return;
+            }
+
+            fromLevel = toLevel;
             toLevel = getLevelArray(event.state.page);
         });
     });

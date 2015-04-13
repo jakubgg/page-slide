@@ -6,7 +6,7 @@
     "normalize-css": "latest",
     "animate.css": "3.2.4",
     "jquery": "git@github.com:jquery/jquery.git#1.11.2",
-    "jquery.smoothstate": "git@github.com:janjaap/jquery.smoothState.js#0.5.3",
+    "jquery.smoothstate": "git@github.com:janjaap/jquery.smoothState.js#0.5.3.2",
     "headjs": "~1.0.3",
     "history.js": "~1.8.0"
   },
